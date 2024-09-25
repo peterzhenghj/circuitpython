@@ -1,0 +1,15 @@
+#
+# Espressif IoT Development Framework Configuration
+#
+#
+# Component config
+#
+#
+# LWIP
+#
+CONFIG_LWIP_LOCAL_HOSTNAME="LCKFB_ESP32S3_N8R8"
+# end of LWIP
+
+# end of Component config
+
+# end of Espressif IoT Development Framework Configuration
