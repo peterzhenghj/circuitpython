@@ -14,8 +14,8 @@
 #define MICROPY_HW_NEOPIXEL         (&pin_GPIO8)
 #define MICROPY_HW_NEOPIXEL_COUNT   (1)
 
-#define DEFAULT_I2C_BUS_SCL         (&pin_GPI15)
-#define DEFAULT_I2C_BUS_SDA         (&pin_GPI14)
+#define DEFAULT_I2C_BUS_SCL         (&pin_GPIO15)
+#define DEFAULT_I2C_BUS_SDA         (&pin_GPIO14)
 
 #define DEFAULT_SPI_BUS_SCK         (&pin_GPIO19)
 #define DEFAULT_SPI_BUS_MOSI        (&pin_GPIO21)
