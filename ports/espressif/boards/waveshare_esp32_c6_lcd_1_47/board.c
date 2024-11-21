@@ -12,7 +12,7 @@
 
 #define DELAY 0x80
 
-// display init sequence 
+// display init sequence
 uint8_t display_init_sequence[] = {
     // sw reset
     0x01, 0 | DELAY, 150,
