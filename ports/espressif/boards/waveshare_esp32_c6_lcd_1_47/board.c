@@ -76,8 +76,8 @@ static void display_init(void) {
     common_hal_busdisplay_busdisplay_construct(
         display,
         bus,
-        240,            // width (after rotation)
-        135,            // height (after rotation)
+        320,            // width (after rotation)
+        172,            // height (after rotation)
         40,             // column start
         53,             // row start
         0,              // rotation
