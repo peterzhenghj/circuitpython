@@ -50,8 +50,8 @@ static void display_init(void) {
 
     common_hal_busio_spi_construct(
         spi,
-        &pin_GPIO36,    // CLK
-        &pin_GPIO35,    // MOSI
+        &pin_GPIO7,    // CLK
+        &pin_GPIO6,    // MOSI
         NULL,           // MISO not connected
         false);         // Not half-duplex
 
