@@ -64,28 +64,28 @@ static void display_init(void) {
         172,            // height (after rotation)
         0,             // column start
         30,             // row start
-        270,              // rotation
-        16,             // color depth
-        false,          // grayscale
-        false,          // pixels in a byte share a row. Only valid for depths < 8
-        1,              // bytes per cell. Only valid for depths < 8
-        false,          // reverse_pixels_in_byte. Only valid for depths < 8
-        true,           // reverse_pixels_in_word
+        270, // rotation
+        16, // Color depth
+        false, // Grayscale
+        false, // Pixels in a byte share a row
+        1, // bytes per cell
+        false, // reverse_pixels_in_byte
+        true, // reverse_pixels_in_word
         MIPI_COMMAND_SET_COLUMN_ADDRESS, // set column command
-        MIPI_COMMAND_SET_PAGE_ADDRESS,   // set row command
+        MIPI_COMMAND_SET_PAGE_ADDRESS, // set row command
         MIPI_COMMAND_WRITE_MEMORY_START, // write memory command
         display_init_sequence,
         sizeof(display_init_sequence),
-        &pin_GPIO22,    // backlight pin
+        &pin_GPIO22, // backlight pin
         NO_BRIGHTNESS_COMMAND,
-        1.0f,           // brightness
-        false,          // single_byte_bounds
-        false,          // data_as_commands
-        true,           // auto_refresh
-        60,             // native_frames_per_second
-        true,           // backlight_on_high
-        false,          // SH1107_addressing
-        1000            // backlight pwm frequency
+        1.0f, // brightness
+        false, // single_byte_boundsS
+        false, // data_as_commands
+        true, // auto_refresh
+        60, // native_frames_per_second
+        true, // backlight_on_high
+        false, // SH1107_addressing
+        1000 // backlight pwm frequency
         );
 }
 
