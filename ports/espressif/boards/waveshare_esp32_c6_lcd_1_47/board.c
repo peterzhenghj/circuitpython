@@ -16,7 +16,7 @@
 
 #define DELAY 0x80
 
-/ display init sequence according to https://github.com/adafruit/Adafruit_CircuitPython_ST7789
+// display init sequence according to https://github.com/adafruit/Adafruit_CircuitPython_ST7789
 uint8_t display_init_sequence[] = {
     0x01, 0x80, 0x96,  // _SWRESET and Delay 150ms
     0x11, 0x80, 0xFF,  // _SLPOUT and Delay 500ms
