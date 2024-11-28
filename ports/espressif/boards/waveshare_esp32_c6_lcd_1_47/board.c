@@ -79,10 +79,10 @@ static void display_init(void) {
     common_hal_busdisplay_busdisplay_construct(
         display,
         bus,
-        320,            // width (after rotation)
-        172,            // height (after rotation)
+        172,            // width (after rotation)
+        320,            // height (after rotation)
         10,             // column start
-        120,             // row start
+        10,             // row start
         270, // rotation
         16, // Color depth
         false, // Grayscale
