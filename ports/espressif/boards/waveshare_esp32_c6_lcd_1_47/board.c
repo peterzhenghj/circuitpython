@@ -62,8 +62,8 @@ static void display_init(void) {
         bus,
         320,            // width (after rotation)
         172,            // height (after rotation)
-        100,             // column start
-        50,             // row start
+        50,             // column start
+        100,             // row start
         90, // rotation
         16, // Color depth
         false, // Grayscale
