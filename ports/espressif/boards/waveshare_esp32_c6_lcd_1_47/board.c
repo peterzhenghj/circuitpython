@@ -9,7 +9,6 @@
 #include "shared-bindings/busio/SPI.h"
 #include "shared-bindings/fourwire/FourWire.h"
 #include "shared-bindings/microcontroller/Pin.h"
-#include "shared-bindings/microcontroller/Pin.h"
 #include "shared-module/displayio/__init__.h"
 #include "shared-module/displayio/mipi_constants.h"
 #include "shared-bindings/board/__init__.h"
@@ -81,8 +80,8 @@ static void display_init(void) {
         bus,
         172,            // width (after rotation)
         320,            // height (after rotation)
-        10,             // column start
-        10,             // row start
+        0,             // column start
+        5,             // row start
         270, // rotation
         16, // Color depth
         false, // Grayscale
