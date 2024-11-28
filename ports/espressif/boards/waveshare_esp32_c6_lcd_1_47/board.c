@@ -83,7 +83,7 @@ static void display_init(void) {
         172,            // height (after rotation)
         10,             // column start
         120,             // row start
-        90, // rotation
+        270, // rotation
         16, // Color depth
         false, // Grayscale
         false, // Pixels in a byte share a row
