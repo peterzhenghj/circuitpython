@@ -22,7 +22,7 @@
 uint8_t display_init_sequence[] = {
     0x01, 0 | DELAY, 120,
     0x11, 0 | DELAY, 120,
-    0x36, 1, 0x70,
+    0x36, 1, 0x00,
     0x3A, 1 | DELAY,  0x05, 10,
     0xB0, 2, 0x00, 0xE8,
     0xB2, 5, 0x0C, 0x0C, 0x00, 0x33, 0x33,
@@ -69,7 +69,7 @@ static void display_init(void) {
         34,              // column start
         0,              // row start
         0,              // rotation
-        16,             // color depth
+        10,             // color depth
         false,          // grayscale
         false,          // pixels in a byte share a row. Only valid for depths < 8
         1,              // bytes per cell. Only valid for depths < 8
