@@ -27,6 +27,9 @@
 #ifdef STM32F407xx
 #include "stm32f4/stm32f407xx/clocks.h"
 #endif
+#ifdef STM32F429xx
+#include "stm32f4/stm32f429xx/clocks.h"
+#endif
 #ifdef STM32F446xx
 #include "stm32f4/stm32f446xx/clocks.h"
 #endif

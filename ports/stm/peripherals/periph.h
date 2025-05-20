@@ -105,6 +105,13 @@ typedef struct {
 #include "stm32f4/stm32f407xx/periph.h"
 #endif
 
+#ifdef STM32F429xx
+#define HAS_DAC 1
+#define HAS_TRNG 1
+#define HAS_BASIC_TIM 1
+#include "stm32f4/stm32f429xx/periph.h"
+#endif
+
 #ifdef STM32F446xx
 #define HAS_DAC 0
 #define HAS_TRNG 0
