@@ -2,11 +2,6 @@
     GNU linker script for STM32F429i-Discovery kit with external 8MByte SDRam
 */
 
-/* Entry Point */
-ENTRY(Reset_Handler)
-
-_ld_default_stack_size = 24K;
-
 /* Specify the memory areas */
 MEMORY
 {
