@@ -1,7 +1,6 @@
 // This file is part of the CircuitPython project: https://circuitpython.org
 //
 // SPDX-FileCopyrightText: Copyright (c) 2017 Scott Shawcroft for Adafruit Industries
-// SPDX-FileCopyrightText: Copyright (c) 2020 Mark Olsson <mark@markolsson.se>
 //
 // SPDX-License-Identifier: MIT
 
@@ -9,7 +8,7 @@
 
 static const mp_rom_map_elem_t board_module_globals_table[] = {
     CIRCUITPYTHON_BOARD_DICT_STANDARD_ITEMS
-    { MP_ROM_QSTR(MP_QSTR_ID), MP_ROM_PTR(&board_module_id_obj) },
+
     { MP_ROM_QSTR(MP_QSTR_PE02), MP_ROM_PTR(&pin_PE02) },
     { MP_ROM_QSTR(MP_QSTR_PE03), MP_ROM_PTR(&pin_PE03) },
     { MP_ROM_QSTR(MP_QSTR_PE04), MP_ROM_PTR(&pin_PE04) },
