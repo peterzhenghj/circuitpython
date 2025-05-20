@@ -15,7 +15,7 @@ MEMORY
     FLASH_FS (rx)   : ORIGIN = 0x08004000, LENGTH = 112K /* sectors 1-4: 3*16K+64K */
     FLASH_FIRMWARE (rx) : ORIGIN = 0x08020000, LENGTH = 896K /* sectors 5-11 are 128K */
     CCMRAM (xrw)    : ORIGIN = 0x10000000, LENGTH = 64K
-    RAM (xrw)       : ORIGIN = 0x20000000, LENGTH = 256K
+    RAM (xrw)       : ORIGIN = 0x20000000, LENGTH = 128K
 }
 
 /* produce a link error if there is not this amount of RAM for these sections */
