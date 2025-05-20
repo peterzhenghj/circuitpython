@@ -8,19 +8,16 @@
 
 #include "stm32f4xx_hal.h"
 
-// Chip:                STM32F412
+// Chip:                STM32F429
 // Line Type:           Access Line
 // Speed:               200MHz (MAX)
-
-// Note - uses the I2S PLL for SUSB to enable full 100MHz operation, since USB
-// can't get the right divisors from 100MHz PLL settings.
 
 // Defaults:
 #ifndef CPY_CLK_VSCALE
 #define CPY_CLK_VSCALE (PWR_REGULATOR_VOLTAGE_SCALE1)
 #endif
 #ifndef CPY_CLK_PLLN
-#define CPY_CLK_PLLN (200)
+#define CPY_CLK_PLLN (336)
 #endif
 #ifndef CPY_CLK_PLLP
 #define CPY_CLK_PLLP (RCC_PLLP_DIV2)
