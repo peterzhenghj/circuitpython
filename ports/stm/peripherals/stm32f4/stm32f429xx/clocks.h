@@ -23,8 +23,12 @@
 #define CPY_CLK_PLLQ (7)
 #endif
 
-#ifndef CPY_CLK_PLLR 
+#ifndef CPY_CLK_PLLR
 #define CPY_CLK_PLLR (2)
+#endif
+
+#ifndef CPY_CLK_PLLI2SM
+#define CPY_CLK_PLLI2SM (HSE_VALUE / 1000000)
 #endif
 
 #ifndef CPY_CLK_AHBDIV
@@ -49,4 +53,12 @@
 
 #ifndef BOARD_HSE_SOURCE
 #define BOARD_HSE_SOURCE (RCC_HSE_ON)
+#endif
+
+#ifndef RCC_PERIPHCLK_CLK48
+#define RCC_PERIPHCLK_CLK48 RCC_PERIPHCLK_CK48
+#endif
+
+#ifndef RCC_CK48CLKSOURCE_PLLI2SQ
+#define RCC_CK48CLKSOURCE_PLLI2SQ RCC_CLK48CLKSOURCE_PLLI2SQ
 #endif
