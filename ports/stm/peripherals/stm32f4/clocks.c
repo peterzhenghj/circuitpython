@@ -34,6 +34,10 @@
 #include "stm32f4/stm32f446xx/clocks.h"
 #endif
 
+#ifdef STM32F429xx
+#include "stm32f4/stm32f429xx/clocks.h"
+#endif
+
 void stm32_peripherals_clocks_init(void) {
     RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
     RCC_OscInitTypeDef RCC_OscInitStruct = {0};
@@ -59,13 +63,13 @@ void stm32_peripherals_clocks_init(void) {
     RCC_OscInitStruct.PLL.PLLN = CPY_CLK_PLLN;
     RCC_OscInitStruct.PLL.PLLP = CPY_CLK_PLLP;
     RCC_OscInitStruct.PLL.PLLQ = CPY_CLK_PLLQ;
-    #if (CPY_CLK_USB_USES_AUDIOPLL)
-    RCC_OscInitStruct.PLL.PLLR = 2; // Unused but required by HAL
+
+  
+    #if defined(RCC_PLLR)
+        RCC_OscInitStruct.PLL.PLLR = CPY_CLK_PLLR;
     #endif
 
     if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK) {
-        // Clock issues are too problematic to even attempt recovery.
-        // If you end up here, check whether your LSE settings match your board.
         while (1) {
             ;
         }
@@ -80,20 +84,40 @@ void stm32_peripherals_clocks_init(void) {
     HAL_RCC_ClockConfig(&RCC_ClkInitStruct, CPY_CLK_FLASH_LATENCY);
 
     // Set up non-bus peripherals
-    // TODO: I2S settings go here
     PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_RTC;
     #if (BOARD_HAS_LOW_SPEED_CRYSTAL)
     PeriphClkInitStruct.RTCClockSelection = RCC_RTCCLKSOURCE_LSE;
     #else
     PeriphClkInitStruct.RTCClockSelection = RCC_RTCCLKSOURCE_LSI;
     #endif
+
     #if (CPY_CLK_USB_USES_AUDIOPLL)
-    // Not supported by all lines. Should always result in 48M.
-    PeriphClkInitStruct.PLLI2S.PLLI2SM = HSE_VALUE / 1000000;
+    
+    #if defined(RCC_PLLI2SM)
+        PeriphClkInitStruct.PLLI2S.PLLI2SM = CPY_CLK_PLLI2SM;
+    #elif defined(RCC_PLLI2SN)
+        PeriphClkInitStruct.PLLI2S.PLLI2SN = CPY_CLK_PLLI2SM;
+    #endif
     PeriphClkInitStruct.PLLI2S.PLLI2SQ = 4;
     PeriphClkInitStruct.PLLI2S.PLLI2SN = 192;
-    PeriphClkInitStruct.PeriphClockSelection |= RCC_PERIPHCLK_CK48;
-    PeriphClkInitStruct.Clk48ClockSelection = RCC_CK48CLKSOURCE_PLLI2SQ;
+
+    
+    #if defined(RCC_PERIPHCLK_CLK48)
+        PeriphClkInitStruct.PeriphClockSelection |= RCC_PERIPHCLK_CLK48;
+    #elif defined(RCC_PERIPHCLK_CK48)
+        PeriphClkInitStruct.PeriphClockSelection |= RCC_PERIPHCLK_CK48;
+    #else
+        #error "RCC_PERIPHCLK_CLK48 or RCC_PERIPHCLK_CK48 is not defined."
+    #endif
+
+    // 处理 Clk48ClockSelection
+    #if defined(RCC_CK48CLKSOURCE_PLLI2SQ)
+        PeriphClkInitStruct.Clk48ClockSelection = RCC_CK48CLKSOURCE_PLLI2SQ;
+    #elif defined(RCC_CLK48CLKSOURCE_PLLI2SQ)
+        PeriphClkInitStruct.Clk48ClockSelection = RCC_CLK48CLKSOURCE_PLLI2SQ;
+    #else
+        #error "Clk48ClockSelection is not defined."
+    #endif
     #endif
 
     HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct);
