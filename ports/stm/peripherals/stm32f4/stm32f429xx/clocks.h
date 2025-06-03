@@ -7,23 +7,18 @@
 // Speed:               200MHz (MAX)
 
 // Defaults:
+// Defaults:
 #ifndef CPY_CLK_VSCALE
 #define CPY_CLK_VSCALE (PWR_REGULATOR_VOLTAGE_SCALE1)
 #endif
 #ifndef CPY_CLK_PLLN
-#define CPY_CLK_PLLN (336)
+#define CPY_CLK_PLLN (200)
 #endif
 #ifndef CPY_CLK_PLLP
 #define CPY_CLK_PLLP (RCC_PLLP_DIV2)
 #endif
 #ifndef CPY_CLK_PLLQ
 #define CPY_CLK_PLLQ (7)
-#endif
-#ifndef CPY_CLK_PLLR
-#define CPY_CLK_PLLR (2)
-#endif
-#ifndef CPY_CLK_PLLI2SM
-#define CPY_CLK_PLLI2SM (HSE_VALUE / 1000000)
 #endif
 #ifndef CPY_CLK_AHBDIV
 #define CPY_CLK_AHBDIV (RCC_SYSCLK_DIV1)
@@ -42,10 +37,4 @@
 #endif
 #ifndef BOARD_HSE_SOURCE
 #define BOARD_HSE_SOURCE (RCC_HSE_ON)
-#endif
-#ifndef RCC_PERIPHCLK_CLK48
-#define RCC_PERIPHCLK_CLK48 RCC_PERIPHCLK_CK48
-#endif
-#ifndef RCC_CK48CLKSOURCE_PLLI2SQ
-#define RCC_CK48CLKSOURCE_PLLI2SQ RCC_CLK48CLKSOURCE_PLLI2SQ
 #endif
