@@ -132,3 +132,6 @@ extern const mcu_pin_obj_t pin_PB08;
 extern const mcu_pin_obj_t pin_PB09;
 extern const mcu_pin_obj_t pin_PE00;
 extern const mcu_pin_obj_t pin_PE01;
+
+extern const mcu_pin_obj_t pin_PH00;
+extern const mcu_pin_obj_t pin_PH01;

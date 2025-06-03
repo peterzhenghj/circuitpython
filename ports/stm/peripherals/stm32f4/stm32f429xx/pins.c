@@ -139,3 +139,6 @@ const mcu_pin_obj_t pin_PB09 = PIN(1, 9, NO_ADC);
 
 const mcu_pin_obj_t pin_PE00 = PIN(4, 0, NO_ADC);
 const mcu_pin_obj_t pin_PE01 = PIN(4, 1, NO_ADC);
+
+const mcu_pin_obj_t pin_PH00 = PIN(7, 0, NO_ADC);
+const mcu_pin_obj_t pin_PH01 = PIN(7, 1, NO_ADC);
