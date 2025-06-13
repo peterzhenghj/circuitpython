@@ -9,7 +9,7 @@
 static const mp_rom_map_elem_t board_module_globals_table[] = {
     CIRCUITPYTHON_BOARD_DICT_STANDARD_ITEMS
 
-    { MP_ROM_QSTR(MP_QSTR_BUTTON), MP_ROM_PTR(&pin_PA0) },
+    { MP_ROM_QSTR(MP_QSTR_BUTTON), MP_ROM_PTR(&pin_PA00) },
 
     // 板载 LED（绿色 PG13，红色 PG14）
     { MP_ROM_QSTR(MP_QSTR_LED), MP_ROM_PTR(&pin_PG13) },
@@ -17,7 +17,7 @@ static const mp_rom_map_elem_t board_module_globals_table[] = {
     { MP_ROM_QSTR(MP_QSTR_LED_RED), MP_ROM_PTR(&pin_PG14) },
 
     // 默认串口（VCP）
-    { MP_ROM_QSTR(MP_QSTR_TX), MP_ROM_PTR(&pin_PA9) },
+    { MP_ROM_QSTR(MP_QSTR_TX), MP_ROM_PTR(&pin_PA09) },
     { MP_ROM_QSTR(MP_QSTR_RX), MP_ROM_PTR(&pin_PA10) },
 
     // 默认 I2C（PB8/PB9）
@@ -61,7 +61,7 @@ static const mp_rom_map_elem_t board_module_globals_table[] = {
     { MP_ROM_QSTR(MP_QSTR_PB15), MP_ROM_PTR(&pin_PB15) },
 
     // GPIO PC
-    { MP_ROM_QSTR(MP_QSTR_PC00), MP_ROM_PTR(&pin_PC0) },
+    { MP_ROM_QSTR(MP_QSTR_PC00), MP_ROM_PTR(&pin_PC00) },
     { MP_ROM_QSTR(MP_QSTR_PC01), MP_ROM_PTR(&pin_PC01) },
     { MP_ROM_QSTR(MP_QSTR_PC02), MP_ROM_PTR(&pin_PC02) },
     { MP_ROM_QSTR(MP_QSTR_PC03), MP_ROM_PTR(&pin_PC03) },
