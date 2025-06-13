@@ -154,7 +154,7 @@ static const mp_rom_map_elem_t board_module_globals_table[] = {
     { MP_ROM_QSTR(MP_QSTR_PH0), MP_ROM_PTR(&pin_PH0) },
     { MP_ROM_QSTR(MP_QSTR_PH1), MP_ROM_PTR(&pin_PH1) },
 
-     // --- TFT LCD RGB 接口（LTDC） ---
+    // --- TFT LCD RGB 接口（LTDC） ---
     { MP_ROM_QSTR(MP_QSTR_LCD_R0), MP_ROM_PTR(&pin_PE0) },
     { MP_ROM_QSTR(MP_QSTR_LCD_R1), MP_ROM_PTR(&pin_PE1) },
     { MP_ROM_QSTR(MP_QSTR_LCD_R2), MP_ROM_PTR(&pin_PE2) },

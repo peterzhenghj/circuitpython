@@ -13,4 +13,4 @@ MCU_PACKAGE = LQFP144
 
 LD_COMMON = boards/common_default.ld
 LD_FILE = boards/STM32F429_fs.ld
-PERIPHERALS_PATH = stm32f4/stm32f429zi
+PERIPHERALS_PATH = stm32f4/stm32f429xx
