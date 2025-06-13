@@ -1,0 +1,232 @@
+// This file is part of the CircuitPython project: https://circuitpython.org
+//
+// SPDX-FileCopyrightText: Copyright (c) 2017 Scott Shawcroft for Adafruit Industries
+//
+// SPDX-License-Identifier: MIT
+
+#include "shared-bindings/board/__init__.h"
+
+static const mp_rom_map_elem_t board_module_globals_table[] = {
+    CIRCUITPYTHON_BOARD_DICT_STANDARD_ITEMS
+
+    { MP_ROM_QSTR(MP_QSTR_BUTTON), MP_ROM_PTR(&pin_PA0) },
+
+    // 板载 LED（绿色 PG13，红色 PG14）
+    { MP_ROM_QSTR(MP_QSTR_LED), MP_ROM_PTR(&pin_PG13) },
+    { MP_ROM_QSTR(MP_QSTR_LED_GREEN), MP_ROM_PTR(&pin_PG13) },
+    { MP_ROM_QSTR(MP_QSTR_LED_RED), MP_ROM_PTR(&pin_PG14) },
+
+    // 默认串口（VCP）
+    { MP_ROM_QSTR(MP_QSTR_TX), MP_ROM_PTR(&pin_PA9) },
+    { MP_ROM_QSTR(MP_QSTR_RX), MP_ROM_PTR(&pin_PA10) },
+
+    // 默认 I2C（PB8/PB9）
+    { MP_ROM_QSTR(MP_QSTR_SCL), MP_ROM_PTR(&pin_PB8) },
+    { MP_ROM_QSTR(MP_QSTR_SDA), MP_ROM_PTR(&pin_PB9) },
+
+    // 全部 GPIO（PA）
+    { MP_ROM_QSTR(MP_QSTR_PA0), MP_ROM_PTR(&pin_PA0) },
+    { MP_ROM_QSTR(MP_QSTR_PA1), MP_ROM_PTR(&pin_PA1) },
+    { MP_ROM_QSTR(MP_QSTR_PA2), MP_ROM_PTR(&pin_PA2) },
+    { MP_ROM_QSTR(MP_QSTR_PA3), MP_ROM_PTR(&pin_PA3) },
+    { MP_ROM_QSTR(MP_QSTR_PA4), MP_ROM_PTR(&pin_PA4) },
+    { MP_ROM_QSTR(MP_QSTR_PA5), MP_ROM_PTR(&pin_PA5) },
+    { MP_ROM_QSTR(MP_QSTR_PA6), MP_ROM_PTR(&pin_PA6) },
+    { MP_ROM_QSTR(MP_QSTR_PA7), MP_ROM_PTR(&pin_PA7) },
+    { MP_ROM_QSTR(MP_QSTR_PA8), MP_ROM_PTR(&pin_PA8) },
+    { MP_ROM_QSTR(MP_QSTR_PA9), MP_ROM_PTR(&pin_PA9) },
+    { MP_ROM_QSTR(MP_QSTR_PA10), MP_ROM_PTR(&pin_PA10) },
+    { MP_ROM_QSTR(MP_QSTR_PA11), MP_ROM_PTR(&pin_PA11) },
+    { MP_ROM_QSTR(MP_QSTR_PA12), MP_ROM_PTR(&pin_PA12) },
+    { MP_ROM_QSTR(MP_QSTR_PA13), MP_ROM_PTR(&pin_PA13) },
+    { MP_ROM_QSTR(MP_QSTR_PA14), MP_ROM_PTR(&pin_PA14) },
+    { MP_ROM_QSTR(MP_QSTR_PA15), MP_ROM_PTR(&pin_PA15) },
+
+    // GPIO PB
+    { MP_ROM_QSTR(MP_QSTR_PB0), MP_ROM_PTR(&pin_PB0) },
+    { MP_ROM_QSTR(MP_QSTR_PB1), MP_ROM_PTR(&pin_PB1) },
+    { MP_ROM_QSTR(MP_QSTR_PB2), MP_ROM_PTR(&pin_PB2) },
+    { MP_ROM_QSTR(MP_QSTR_PB3), MP_ROM_PTR(&pin_PB3) },
+    { MP_ROM_QSTR(MP_QSTR_PB4), MP_ROM_PTR(&pin_PB4) },
+    { MP_ROM_QSTR(MP_QSTR_PB5), MP_ROM_PTR(&pin_PB5) },
+    { MP_ROM_QSTR(MP_QSTR_PB6), MP_ROM_PTR(&pin_PB6) },
+    { MP_ROM_QSTR(MP_QSTR_PB7), MP_ROM_PTR(&pin_PB7) },
+    { MP_ROM_QSTR(MP_QSTR_PB8), MP_ROM_PTR(&pin_PB8) },
+    { MP_ROM_QSTR(MP_QSTR_PB9), MP_ROM_PTR(&pin_PB9) },
+    { MP_ROM_QSTR(MP_QSTR_PB10), MP_ROM_PTR(&pin_PB10) },
+    { MP_ROM_QSTR(MP_QSTR_PB11), MP_ROM_PTR(&pin_PB11) },
+    { MP_ROM_QSTR(MP_QSTR_PB12), MP_ROM_PTR(&pin_PB12) },
+    { MP_ROM_QSTR(MP_QSTR_PB13), MP_ROM_PTR(&pin_PB13) },
+    { MP_ROM_QSTR(MP_QSTR_PB14), MP_ROM_PTR(&pin_PB14) },
+    { MP_ROM_QSTR(MP_QSTR_PB15), MP_ROM_PTR(&pin_PB15) },
+
+    // GPIO PC
+    { MP_ROM_QSTR(MP_QSTR_PC0), MP_ROM_PTR(&pin_PC0) },
+    { MP_ROM_QSTR(MP_QSTR_PC1), MP_ROM_PTR(&pin_PC1) },
+    { MP_ROM_QSTR(MP_QSTR_PC2), MP_ROM_PTR(&pin_PC2) },
+    { MP_ROM_QSTR(MP_QSTR_PC3), MP_ROM_PTR(&pin_PC3) },
+    { MP_ROM_QSTR(MP_QSTR_PC4), MP_ROM_PTR(&pin_PC4) },
+    { MP_ROM_QSTR(MP_QSTR_PC5), MP_ROM_PTR(&pin_PC5) },
+    { MP_ROM_QSTR(MP_QSTR_PC6), MP_ROM_PTR(&pin_PC6) },
+    { MP_ROM_QSTR(MP_QSTR_PC7), MP_ROM_PTR(&pin_PC7) },
+    { MP_ROM_QSTR(MP_QSTR_PC8), MP_ROM_PTR(&pin_PC8) },
+    { MP_ROM_QSTR(MP_QSTR_PC9), MP_ROM_PTR(&pin_PC9) },
+    { MP_ROM_QSTR(MP_QSTR_PC10), MP_ROM_PTR(&pin_PC10) },
+    { MP_ROM_QSTR(MP_QSTR_PC11), MP_ROM_PTR(&pin_PC11) },
+    { MP_ROM_QSTR(MP_QSTR_PC12), MP_ROM_PTR(&pin_PC12) },
+    { MP_ROM_QSTR(MP_QSTR_PC13), MP_ROM_PTR(&pin_PC13) },
+    { MP_ROM_QSTR(MP_QSTR_PC14), MP_ROM_PTR(&pin_PC14) },
+    { MP_ROM_QSTR(MP_QSTR_PC15), MP_ROM_PTR(&pin_PC15) },
+
+    // GPIO PD
+    { MP_ROM_QSTR(MP_QSTR_PD0), MP_ROM_PTR(&pin_PD0) },
+    { MP_ROM_QSTR(MP_QSTR_PD1), MP_ROM_PTR(&pin_PD1) },
+    { MP_ROM_QSTR(MP_QSTR_PD2), MP_ROM_PTR(&pin_PD2) },
+    { MP_ROM_QSTR(MP_QSTR_PD3), MP_ROM_PTR(&pin_PD3) },
+    { MP_ROM_QSTR(MP_QSTR_PD4), MP_ROM_PTR(&pin_PD4) },
+    { MP_ROM_QSTR(MP_QSTR_PD5), MP_ROM_PTR(&pin_PD5) },
+    { MP_ROM_QSTR(MP_QSTR_PD6), MP_ROM_PTR(&pin_PD6) },
+    { MP_ROM_QSTR(MP_QSTR_PD7), MP_ROM_PTR(&pin_PD7) },
+    { MP_ROM_QSTR(MP_QSTR_PD8), MP_ROM_PTR(&pin_PD8) },
+    { MP_ROM_QSTR(MP_QSTR_PD9), MP_ROM_PTR(&pin_PD9) },
+    { MP_ROM_QSTR(MP_QSTR_PD10), MP_ROM_PTR(&pin_PD10) },
+    { MP_ROM_QSTR(MP_QSTR_PD11), MP_ROM_PTR(&pin_PD11) },
+    { MP_ROM_QSTR(MP_QSTR_PD12), MP_ROM_PTR(&pin_PD12) },
+    { MP_ROM_QSTR(MP_QSTR_PD13), MP_ROM_PTR(&pin_PD13) },
+    { MP_ROM_QSTR(MP_QSTR_PD14), MP_ROM_PTR(&pin_PD14) },
+    { MP_ROM_QSTR(MP_QSTR_PD15), MP_ROM_PTR(&pin_PD15) },
+
+    // GPIO PE
+    { MP_ROM_QSTR(MP_QSTR_PE0), MP_ROM_PTR(&pin_PE0) },
+    { MP_ROM_QSTR(MP_QSTR_PE1), MP_ROM_PTR(&pin_PE1) },
+    { MP_ROM_QSTR(MP_QSTR_PE2), MP_ROM_PTR(&pin_PE2) },
+    { MP_ROM_QSTR(MP_QSTR_PE3), MP_ROM_PTR(&pin_PE3) },
+    { MP_ROM_QSTR(MP_QSTR_PE4), MP_ROM_PTR(&pin_PE4) },
+    { MP_ROM_QSTR(MP_QSTR_PE5), MP_ROM_PTR(&pin_PE5) },
+    { MP_ROM_QSTR(MP_QSTR_PE6), MP_ROM_PTR(&pin_PE6) },
+    { MP_ROM_QSTR(MP_QSTR_PE7), MP_ROM_PTR(&pin_PE7) },
+    { MP_ROM_QSTR(MP_QSTR_PE8), MP_ROM_PTR(&pin_PE8) },
+    { MP_ROM_QSTR(MP_QSTR_PE9), MP_ROM_PTR(&pin_PE9) },
+    { MP_ROM_QSTR(MP_QSTR_PE10), MP_ROM_PTR(&pin_PE10) },
+    { MP_ROM_QSTR(MP_QSTR_PE11), MP_ROM_PTR(&pin_PE11) },
+    { MP_ROM_QSTR(MP_QSTR_PE12), MP_ROM_PTR(&pin_PE12) },
+    { MP_ROM_QSTR(MP_QSTR_PE13), MP_ROM_PTR(&pin_PE13) },
+    { MP_ROM_QSTR(MP_QSTR_PE14), MP_ROM_PTR(&pin_PE14) },
+    { MP_ROM_QSTR(MP_QSTR_PE15), MP_ROM_PTR(&pin_PE15) },
+
+    // GPIO PF
+    { MP_ROM_QSTR(MP_QSTR_PF0), MP_ROM_PTR(&pin_PF0) },
+    { MP_ROM_QSTR(MP_QSTR_PF1), MP_ROM_PTR(&pin_PF1) },
+    { MP_ROM_QSTR(MP_QSTR_PF2), MP_ROM_PTR(&pin_PF2) },
+    { MP_ROM_QSTR(MP_QSTR_PF3), MP_ROM_PTR(&pin_PF3) },
+    { MP_ROM_QSTR(MP_QSTR_PF4), MP_ROM_PTR(&pin_PF4) },
+    { MP_ROM_QSTR(MP_QSTR_PF5), MP_ROM_PTR(&pin_PF5) },
+    { MP_ROM_QSTR(MP_QSTR_PF6), MP_ROM_PTR(&pin_PF6) },
+    { MP_ROM_QSTR(MP_QSTR_PF7), MP_ROM_PTR(&pin_PF7) },
+    { MP_ROM_QSTR(MP_QSTR_PF8), MP_ROM_PTR(&pin_PF8) },
+    { MP_ROM_QSTR(MP_QSTR_PF9), MP_ROM_PTR(&pin_PF9) },
+    { MP_ROM_QSTR(MP_QSTR_PF10), MP_ROM_PTR(&pin_PF10) },
+    { MP_ROM_QSTR(MP_QSTR_PF11), MP_ROM_PTR(&pin_PF11) },
+    { MP_ROM_QSTR(MP_QSTR_PF12), MP_ROM_PTR(&pin_PF12) },
+    { MP_ROM_QSTR(MP_QSTR_PF13), MP_ROM_PTR(&pin_PF13) },
+    { MP_ROM_QSTR(MP_QSTR_PF14), MP_ROM_PTR(&pin_PF14) },
+    { MP_ROM_QSTR(MP_QSTR_PF15), MP_ROM_PTR(&pin_PF15) },
+
+    // GPIO PG
+    { MP_ROM_QSTR(MP_QSTR_PG0), MP_ROM_PTR(&pin_PG0) },
+    { MP_ROM_QSTR(MP_QSTR_PG1), MP_ROM_PTR(&pin_PG1) },
+    { MP_ROM_QSTR(MP_QSTR_PG2), MP_ROM_PTR(&pin_PG2) },
+    { MP_ROM_QSTR(MP_QSTR_PG3), MP_ROM_PTR(&pin_PG3) },
+    { MP_ROM_QSTR(MP_QSTR_PG4), MP_ROM_PTR(&pin_PG4) },
+    { MP_ROM_QSTR(MP_QSTR_PG5), MP_ROM_PTR(&pin_PG5) },
+    { MP_ROM_QSTR(MP_QSTR_PG6), MP_ROM_PTR(&pin_PG6) },
+    { MP_ROM_QSTR(MP_QSTR_PG7), MP_ROM_PTR(&pin_PG7) },
+    { MP_ROM_QSTR(MP_QSTR_PG8), MP_ROM_PTR(&pin_PG8) },
+    { MP_ROM_QSTR(MP_QSTR_PG9), MP_ROM_PTR(&pin_PG9) },
+    { MP_ROM_QSTR(MP_QSTR_PG10), MP_ROM_PTR(&pin_PG10) },
+    { MP_ROM_QSTR(MP_QSTR_PG11), MP_ROM_PTR(&pin_PG11) },
+    { MP_ROM_QSTR(MP_QSTR_PG12), MP_ROM_PTR(&pin_PG12) },
+    { MP_ROM_QSTR(MP_QSTR_PG13), MP_ROM_PTR(&pin_PG13) },
+    { MP_ROM_QSTR(MP_QSTR_PG14), MP_ROM_PTR(&pin_PG14) },
+    { MP_ROM_QSTR(MP_QSTR_PG15), MP_ROM_PTR(&pin_PG15) },
+
+    // GPIO PH
+    { MP_ROM_QSTR(MP_QSTR_PH0), MP_ROM_PTR(&pin_PH0) },
+    { MP_ROM_QSTR(MP_QSTR_PH1), MP_ROM_PTR(&pin_PH1) },
+
+     // --- TFT LCD RGB 接口（LTDC） ---
+    { MP_ROM_QSTR(MP_QSTR_LCD_R0), MP_ROM_PTR(&pin_PE0) },
+    { MP_ROM_QSTR(MP_QSTR_LCD_R1), MP_ROM_PTR(&pin_PE1) },
+    { MP_ROM_QSTR(MP_QSTR_LCD_R2), MP_ROM_PTR(&pin_PE2) },
+    { MP_ROM_QSTR(MP_QSTR_LCD_R3), MP_ROM_PTR(&pin_PE3) },
+    { MP_ROM_QSTR(MP_QSTR_LCD_R4), MP_ROM_PTR(&pin_PE4) },
+    { MP_ROM_QSTR(MP_QSTR_LCD_R5), MP_ROM_PTR(&pin_PE5) },
+    { MP_ROM_QSTR(MP_QSTR_LCD_R6), MP_ROM_PTR(&pin_PE6) },
+    { MP_ROM_QSTR(MP_QSTR_LCD_R7), MP_ROM_PTR(&pin_PD14) },
+
+    { MP_ROM_QSTR(MP_QSTR_LCD_G0), MP_ROM_PTR(&pin_PE7) },
+    { MP_ROM_QSTR(MP_QSTR_LCD_G1), MP_ROM_PTR(&pin_PE8) },
+    { MP_ROM_QSTR(MP_QSTR_LCD_G2), MP_ROM_PTR(&pin_PE9) },
+    { MP_ROM_QSTR(MP_QSTR_LCD_G3), MP_ROM_PTR(&pin_PE10) },
+    { MP_ROM_QSTR(MP_QSTR_LCD_G4), MP_ROM_PTR(&pin_PE11) },
+    { MP_ROM_QSTR(MP_QSTR_LCD_G5), MP_ROM_PTR(&pin_PE12) },
+    { MP_ROM_QSTR(MP_QSTR_LCD_G6), MP_ROM_PTR(&pin_PE13) },
+    { MP_ROM_QSTR(MP_QSTR_LCD_G7), MP_ROM_PTR(&pin_PE14) },
+
+    { MP_ROM_QSTR(MP_QSTR_LCD_B0), MP_ROM_PTR(&pin_PE15) },
+    { MP_ROM_QSTR(MP_QSTR_LCD_B1), MP_ROM_PTR(&pin_PD8) },
+    { MP_ROM_QSTR(MP_QSTR_LCD_B2), MP_ROM_PTR(&pin_PD9) },
+    { MP_ROM_QSTR(MP_QSTR_LCD_B3), MP_ROM_PTR(&pin_PD10) },
+    { MP_ROM_QSTR(MP_QSTR_LCD_B4), MP_ROM_PTR(&pin_PD11) },
+    { MP_ROM_QSTR(MP_QSTR_LCD_B5), MP_ROM_PTR(&pin_PD12) },
+    { MP_ROM_QSTR(MP_QSTR_LCD_B6), MP_ROM_PTR(&pin_PD13) },
+    { MP_ROM_QSTR(MP_QSTR_LCD_B7), MP_ROM_PTR(&pin_PD15) },
+
+    { MP_ROM_QSTR(MP_QSTR_LCD_CLK), MP_ROM_PTR(&pin_PC6) },
+    { MP_ROM_QSTR(MP_QSTR_LCD_HSYNC), MP_ROM_PTR(&pin_PC10) },
+    { MP_ROM_QSTR(MP_QSTR_LCD_VSYNC), MP_ROM_PTR(&pin_PC9) },
+    { MP_ROM_QSTR(MP_QSTR_LCD_DE), MP_ROM_PTR(&pin_PC7) },
+
+    // --- SDRAM 控制引脚（FMC） ---
+    { MP_ROM_QSTR(MP_QSTR_FMC_A0), MP_ROM_PTR(&pin_PF0) },
+    { MP_ROM_QSTR(MP_QSTR_FMC_A1), MP_ROM_PTR(&pin_PF1) },
+    { MP_ROM_QSTR(MP_QSTR_FMC_A2), MP_ROM_PTR(&pin_PF2) },
+    { MP_ROM_QSTR(MP_QSTR_FMC_A3), MP_ROM_PTR(&pin_PF3) },
+    { MP_ROM_QSTR(MP_QSTR_FMC_A4), MP_ROM_PTR(&pin_PF4) },
+    { MP_ROM_QSTR(MP_QSTR_FMC_A5), MP_ROM_PTR(&pin_PF5) },
+    { MP_ROM_QSTR(MP_QSTR_FMC_A6), MP_ROM_PTR(&pin_PF12) },
+    { MP_ROM_QSTR(MP_QSTR_FMC_A7), MP_ROM_PTR(&pin_PF13) },
+    { MP_ROM_QSTR(MP_QSTR_FMC_A8), MP_ROM_PTR(&pin_PF14) },
+    { MP_ROM_QSTR(MP_QSTR_FMC_A9), MP_ROM_PTR(&pin_PF15) },
+    { MP_ROM_QSTR(MP_QSTR_FMC_A10), MP_ROM_PTR(&pin_PG0) },
+    { MP_ROM_QSTR(MP_QSTR_FMC_A11), MP_ROM_PTR(&pin_PG1) },
+    { MP_ROM_QSTR(MP_QSTR_FMC_A12), MP_ROM_PTR(&pin_PG2) },
+
+    { MP_ROM_QSTR(MP_QSTR_FMC_D0), MP_ROM_PTR(&pin_PD14) },
+    { MP_ROM_QSTR(MP_QSTR_FMC_D1), MP_ROM_PTR(&pin_PD15) },
+    { MP_ROM_QSTR(MP_QSTR_FMC_D2), MP_ROM_PTR(&pin_PD0) },
+    { MP_ROM_QSTR(MP_QSTR_FMC_D3), MP_ROM_PTR(&pin_PD1) },
+    { MP_ROM_QSTR(MP_QSTR_FMC_D4), MP_ROM_PTR(&pin_PE7) },
+    { MP_ROM_QSTR(MP_QSTR_FMC_D5), MP_ROM_PTR(&pin_PE8) },
+    { MP_ROM_QSTR(MP_QSTR_FMC_D6), MP_ROM_PTR(&pin_PE9) },
+    { MP_ROM_QSTR(MP_QSTR_FMC_D7), MP_ROM_PTR(&pin_PE10) },
+    { MP_ROM_QSTR(MP_QSTR_FMC_D8), MP_ROM_PTR(&pin_PE11) },
+    { MP_ROM_QSTR(MP_QSTR_FMC_D9), MP_ROM_PTR(&pin_PE12) },
+    { MP_ROM_QSTR(MP_QSTR_FMC_D10), MP_ROM_PTR(&pin_PE13) },
+    { MP_ROM_QSTR(MP_QSTR_FMC_D11), MP_ROM_PTR(&pin_PE14) },
+    { MP_ROM_QSTR(MP_QSTR_FMC_D12), MP_ROM_PTR(&pin_PE15) },
+    { MP_ROM_QSTR(MP_QSTR_FMC_D13), MP_ROM_PTR(&pin_PD8) },
+    { MP_ROM_QSTR(MP_QSTR_FMC_D14), MP_ROM_PTR(&pin_PD9) },
+    { MP_ROM_QSTR(MP_QSTR_FMC_D15), MP_ROM_PTR(&pin_PD10) },
+
+    { MP_ROM_QSTR(MP_QSTR_FMC_SDCLK), MP_ROM_PTR(&pin_PG8) },
+    { MP_ROM_QSTR(MP_QSTR_FMC_SDNCAS), MP_ROM_PTR(&pin_PG15) },
+    { MP_ROM_QSTR(MP_QSTR_FMC_SDNRAS), MP_ROM_PTR(&pin_PF11) },
+    { MP_ROM_QSTR(MP_QSTR_FMC_SDNE0), MP_ROM_PTR(&pin_PH3) },
+    { MP_ROM_QSTR(MP_QSTR_FMC_SDCKE0), MP_ROM_PTR(&pin_PC3) },
+    { MP_ROM_QSTR(MP_QSTR_FMC_NBL0), MP_ROM_PTR(&pin_PE0) },
+    { MP_ROM_QSTR(MP_QSTR_FMC_NBL1), MP_ROM_PTR(&pin_PE1) },
+
+    { MP_ROM_QSTR(MP_QSTR_I2C), MP_ROM_PTR(&board_i2c_obj) },
+};
+MP_DEFINE_CONST_DICT(board_module_globals, board_module_globals_table);
