@@ -18,7 +18,8 @@
 #define LSE_VALUE ((uint32_t)32768)             // 外部 32.768 kHz 晶振
 #define BOARD_HSE_SOURCE           (RCC_HSE_BYPASS)
 #define BOARD_HAS_LOW_SPEED_CRYSTAL (1)
-#define CPY_CLK_USB_USES_AUDIOPLL   (1)
+#undef CPY_CLK_USB_USES_AUDIOPLL
+#define CPY_CLK_USB_USES_AUDIOPLL (0)
 
 // 默认 I2C 接口（基于原理图，PB8/PB9 连接至扩展接口）
 #define DEFAULT_I2C_BUS_SCL (&pin_PB08)
@@ -33,8 +34,8 @@
 #define MICROPY_HW_LED_STATUS_INVERTED (0)
 
 // 板载用户按键（B1：PA0）
-#define MICROPY_HW_BUTTON_USER (&pin_PA0)
+#define MICROPY_HW_BUTTON_USER (&pin_PA00)
 
 #define MICROPY_HW_LED1       (&pin_PG13)
 #define MICROPY_HW_LED2       (&pin_PG14)
-#define MICROPY_HW_BUTTON     (&pin_PA0)
+#define MICROPY_HW_BUTTON     (&pin_PA00)
