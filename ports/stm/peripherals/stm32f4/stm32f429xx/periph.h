@@ -29,7 +29,7 @@ extern const mcu_periph_obj_t mcu_spi_miso_list[MISO_LIST_LEN];
 extern const mcu_periph_obj_t mcu_spi_nss_list[NSS_LIST_LEN];
 
 // UART
-#define MAX_UART 8
+// #define MAX_UART 8
 extern USART_TypeDef *mcu_uart_banks[MAX_UART];
 extern bool mcu_uart_has_usart[MAX_UART];
 
@@ -43,4 +43,3 @@ extern const mcu_periph_obj_t mcu_uart_rx_list[UART_RX_LIST_LEN];
 #define TIM_PIN_ARRAY_LEN 60
 extern TIM_TypeDef *mcu_tim_banks[TIM_BANK_ARRAY_LEN];
 extern const mcu_tim_pin_obj_t mcu_tim_pin_list[TIM_PIN_ARRAY_LEN];
-

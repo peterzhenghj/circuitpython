@@ -38,5 +38,3 @@
 #define MICROPY_HW_LED1       (&pin_PG13)
 #define MICROPY_HW_LED2       (&pin_PG14)
 #define MICROPY_HW_BUTTON     (&pin_PA0)
-
-

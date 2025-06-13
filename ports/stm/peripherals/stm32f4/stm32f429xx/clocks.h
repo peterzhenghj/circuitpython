@@ -55,4 +55,3 @@
 #ifndef BOARD_HSE_SOURCE
 #define BOARD_HSE_SOURCE (RCC_HSE_BYPASS)  // ST-LINK MCO provides 8MHz
 #endif
-
