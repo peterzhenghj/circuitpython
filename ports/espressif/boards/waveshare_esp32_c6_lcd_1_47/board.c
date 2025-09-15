@@ -80,7 +80,7 @@ static void display_init(void) {
         sizeof(display_init_sequence),
         &pin_GPIO22,    // backlight pin
         NO_BRIGHTNESS_COMMAND,
-        0.4f,           // brightness
+        0.3f,           // brightness
         false,          // single_byte_bounds
         false,          // data_as_commands
         true,           // auto_refresh
