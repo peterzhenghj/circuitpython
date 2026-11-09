@@ -8,7 +8,6 @@
 #include "mpconfigboard.h"
 #include "driver/gpio.h"
 #include "shared-bindings/microcontroller/Pin.h"
-#include "shared-bindings/digitalio/DigitalInOut.h"
 #include "shared-bindings/time/__init__.h"
 #include "shared-module/displayio/__init__.h"
 #include "shared-module/displayio/mipi_constants.h"
@@ -17,39 +16,52 @@
 
 #define DELAY 0x80
 
-// display init sequence according to LilyGo example app, in 320x240 landscape
+// ST7789 initialization sequence for 320x240 landscape
+// Reference: ST7789 datasheet + LilyGo T-HMI official example
 uint8_t display_init_sequence[] = {
-    // sw reset
-    0x01, 0 | DELAY, 100,
-    // sleep out
-    0x11, 0 | DELAY, 255,
-    // madctl display and color format settings (landscape)
+    // Software reset - must wait 150ms+ after this command
+    0x01, 0 | DELAY, 150,
+    // Sleep out - must wait 120ms+ (ST7789 datasheet requirement)
+    0x11, 0 | DELAY, 120,
+    // MADCTL: Memory Access Control
+    // 0xA0 = 1010 0000
+    //        |||| ||||-- D7: MY (Row Address Order) = 1
+    //        |||| |||--- D6: MX (Column Address Order) = 0
+    //        |||| ||---- D5: MV (Row/Column Exchange) = 1 (landscape)
+    //        |||| |----- D4: ML (Vertical Refresh Order) = 0
+    //        ||||------- D3: BGR/RGB = 0 (RGB)
+    //        |||-------- D2: MH (Horizontal Refresh Order) = 0
     0x36, 1, 0xA0,
-    // 16 bits per pixel
+    // COLMOD: Interface Pixel Format - 16 bits/pixel (RGB565)
     0x3A, 1, 0x05,
-    // porches
+    // PORCTRL: Porch Setting
     0xB2, 5, 0x0C, 0x0C, 0x00, 0x33, 0x33,
-    // gate control
+    // GCTRL: Gate Control
     0xB7, 1, 0x35,
-    // VCOM
+    // VCOMS: VCOM Setting
     0xBB, 1, 0x28,
-    // power control
+    // LCMCTRL: LCM Control
     0xC0, 1, 0x2C,
+    // VDVVRHEN: VDV and VRH Command Enable
     0xC2, 1, 0x01,
+    // VRHS: VRH Set
     0xC3, 1, 0x0B,
+    // VDVS: VDV Set
     0xC4, 1, 0x20,
+    // FRCTRL2: Frame Rate Control in Normal Mode
     0xC6, 1, 0x0F,
-    // interface control
+    // PWCTRL1: Power Control 1
     0xD0, 2, 0xA4, 0xA1,
-    // ST7789 gamma settings
+    // PVGAMCTRL: Positive Voltage Gamma Control
     0xE0, 14, 0xD0, 0x01, 0x08, 0x0F, 0x11, 0x2A, 0x36, 0x55, 0x44, 0x3A, 0x0B, 0x06, 0x11, 0x20,
+    // NVGAMCTRL: Negative Voltage Gamma Control
     0xE1, 14, 0xD0, 0x02, 0x07, 0x0A, 0x0B, 0x18, 0x34, 0x43, 0x4A, 0x2B, 0x1B, 0x1C, 0x22, 0x1F,
-    // display on
-    0x29, 0 | DELAY, 255,
+    // Display ON - wait 100ms+
+    0x29, 0 | DELAY, 100,
 };
 
 static void display_init(void) {
-    // 先确保电源稳定
+    // Ensure power is stable before initializing display
     common_hal_time_delay_ms(10);
 
     paralleldisplaybus_parallelbus_obj_t *bus = &allocate_display_bus()->parallel_bus;
@@ -74,7 +86,7 @@ static void display_init(void) {
         &pin_GPIO6,  // Chip select (CS)
         &pin_GPIO8,  // Write (WR)
         NULL,        // Read. Not connected on this board.
-        NULL,        // Reset. The panel has no reset line, use SWRESET.
+        NULL,        // Reset. No hardware reset pin on T-HMI, use software reset (0x01).
         5000000);    // Frequency. LilyGo runs the panel at 5 MHz.
 
     busdisplay_busdisplay_obj_t *display = &allocate_display()->display;
@@ -107,15 +119,14 @@ static void display_init(void) {
         true,        // auto_refresh
         60,          // native_frames_per_second
         true,        // backlight_on_high
-        &pin_GPIO9,  // SH1107_addressing
+        false,       // SH1107_addressing
         50000);      // backlight pwm frequency
 }
 
 void board_init(void) {
     // GPIO14 (PWR_ON) and GPIO10 (PWR_EN) both hold the display powered on.
-    // 注意：需要先配置 PWR_ON，再配置 PWR_EN，确保上电时序正确
     espressif_board_reset_pin_number(14);
-    common_hal_time_delay_ms(5);  // 短暂延时确保电源稳定
+    common_hal_time_delay_ms(5);
     espressif_board_reset_pin_number(10);
 
     // Display
