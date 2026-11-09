@@ -1,3 +1,4 @@
+# Force rebuild 2026-11-09
 USB_VID = 0x303a
 USB_PID = 0x83EB
 USB_PRODUCT = "T-HMI"
