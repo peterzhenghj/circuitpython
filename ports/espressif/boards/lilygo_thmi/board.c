@@ -51,10 +51,10 @@ uint8_t display_init_sequence[] = {
 static void display_init(void) {
     // 先确保电源稳定
     common_hal_time_delay_ms(10);
-    
+
     paralleldisplaybus_parallelbus_obj_t *bus = &allocate_display_bus()->parallel_bus;
     bus->base.type = &paralleldisplaybus_parallelbus_type;
-    
+
     const mcu_pin_obj_t *data_pins[] = {
         &pin_GPIO48,  // D0
         &pin_GPIO47,  // D1
@@ -65,7 +65,7 @@ static void display_init(void) {
         &pin_GPIO45,  // D6
         &pin_GPIO46   // D7
     };
-    
+
     common_hal_paralleldisplaybus_parallelbus_construct_nonsequential(
         bus,
         8, // num pins
@@ -79,7 +79,7 @@ static void display_init(void) {
 
     busdisplay_busdisplay_obj_t *display = &allocate_display()->display;
     display->base.type = &busdisplay_busdisplay_type;
-    
+
     common_hal_busdisplay_busdisplay_construct(
         display,
         bus,
@@ -92,4 +92,43 @@ static void display_init(void) {
         false, // grayscale
         false, // pixels_in_byte_share_row (unused for depths > 8)
         1,     // bytes per cell. Only valid for depths < 8
-        false
+        false, // reverse_pixels_in_byte. Only valid for depths < 8
+        true,  // reverse_pixels_in_word
+        MIPI_COMMAND_SET_COLUMN_ADDRESS, // Set column command
+        MIPI_COMMAND_SET_PAGE_ADDRESS,   // Set row command
+        MIPI_COMMAND_WRITE_MEMORY_START, // Write memory command
+        display_init_sequence,
+        sizeof(display_init_sequence),
+        &pin_GPIO38, // Backlight pin
+        NO_BRIGHTNESS_COMMAND,
+        1.0f,        // brightness
+        false,       // single_byte_bounds
+        false,       // data_as_commands
+        true,        // auto_refresh
+        60,          // native_frames_per_second
+        true,        // backlight_on_high
+        false,       // SH1107_addressing
+        50000);      // backlight pwm frequency
+}
+
+void board_init(void) {
+    // GPIO14 (PWR_ON) and GPIO10 (PWR_EN) both hold the display powered on.
+    // 注意：需要先配置 PWR_ON，再配置 PWR_EN，确保上电时序正确
+    espressif_board_reset_pin_number(14);
+    common_hal_time_delay_ms(5);  // 短暂延时确保电源稳定
+    espressif_board_reset_pin_number(10);
+
+    // Display
+    display_init();
+}
+
+bool espressif_board_reset_pin_number(gpio_num_t pin_number) {
+    // Keep the display power pins enabled.
+    if (pin_number == 14 || pin_number == 10) {
+        config_pin_as_output_with_level(pin_number, true);
+        return true;
+    }
+    return false;
+}
+
+// Use the MP_WEAK supervisor/shared/board.c versions of routines not defined here.
