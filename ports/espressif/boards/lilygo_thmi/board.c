@@ -124,4 +124,3 @@ bool espressif_board_reset_pin_number(gpio_num_t pin_number) {
 }
 
 // Use the MP_WEAK supervisor/shared/board.c versions of routines not defined here.
-
