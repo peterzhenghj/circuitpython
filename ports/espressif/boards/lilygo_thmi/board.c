@@ -16,7 +16,7 @@
 #define PWR_EN_PIN (10)
 #define PWR_ON_PIN (14)
 
-static const uint8_t display_init_sequence[] = {
+static uint8_t display_init_sequence[] = {
     0x01, 0 | DELAY, 150,
     0x11, 0 | DELAY, 150,
     0x13, 0,
