@@ -13,28 +13,18 @@
 
 #define DELAY 0x80
 
-// GPIO10 (PWR_EN) must be high to run from the battery.
-// GPIO14 (PWR_ON) is the power latch and must be high to stay on.
 #define PWR_EN_PIN (10)
 #define PWR_ON_PIN (14)
 
-// display init sequence according to LilyGO example app
-uint8_t display_init_sequence[] = {
-    // sw reset
+static const uint8_t display_init_sequence[] = {
     0x01, 0 | DELAY, 150,
-    // sleep out
-    0x11, 0 | DELAY, 255,
-    // normal display mode on
+    0x11, 0 | DELAY, 150,
     0x13, 0,
-    // display and color format settings
-    0x36, 1, 0x68,
+    0x36, 1, 0x60,
     0xB6, 2, 0x0A, 0x82,
-    0x3A, 1 | DELAY,  0x55, 10,
-    // ST7789V frame rate setting
+    0x3A, 1 | DELAY, 0x55, 10,
     0xB2, 5, 0x0C, 0x0C, 0x00, 0x33, 0x33,
-    // voltages: VGH / VGL
     0xB7, 1, 0x35,
-    // ST7789V power setting
     0xBB, 1, 0x28,
     0xC0, 1, 0x0C,
     0xC2, 2, 0x01, 0xFF,
@@ -42,12 +32,12 @@ uint8_t display_init_sequence[] = {
     0xC4, 1, 0x20,
     0xC6, 1, 0x0F,
     0xD0, 2, 0xA4, 0xA1,
-    // ST7789V gamma setting
     0xE0, 14, 0xD0, 0x00, 0x02, 0x07, 0x0A, 0x28, 0x32, 0x44, 0x42, 0x06, 0x0E, 0x12, 0x14, 0x17,
     0xE1, 14, 0xD0, 0x00, 0x02, 0x07, 0x0A, 0x28, 0x31, 0x54, 0x47, 0x0E, 0x1C, 0x17, 0x1B, 0x1E,
+    0x2A, 4, 0x00, 0x00, 0x01, 0x3F,
+    0x2B, 4, 0x00, 0x00, 0x00, 0xEF,
     0x21, 0,
-    // display on
-    0x29, 0 | DELAY, 255,
+    0x29, 0 | DELAY, 150,
 };
 
 static void display_init(void) {
@@ -64,58 +54,54 @@ static void display_init(void) {
         &pin_GPIO46
     };
     common_hal_paralleldisplaybus_parallelbus_construct_nonsequential(bus,
-        8, // num pins
-        data_pins, // Data pins
-        &pin_GPIO7, // Command or data
-        &pin_GPIO6, // Chip select
-        &pin_GPIO8, // Write
-        NULL, // Read is not connected
-        NULL, // Reset is not connected
-        15000000); // Frequency. ST7789 datasheet says min clock cycle is 66ns which is ~15 mhz.
+        8,
+        data_pins,
+        &pin_GPIO7,
+        &pin_GPIO6,
+        &pin_GPIO8,
+        NULL,
+        NULL,
+        15000000);
 
     busdisplay_busdisplay_obj_t *display = &allocate_display()->display;
     display->base.type = &busdisplay_busdisplay_type;
     common_hal_busdisplay_busdisplay_construct(display,
         bus,
-        320, // Width
-        240, // Height
-        0, // column start
-        0, // row start
-        0, // rotation
-        16, // Color depth
-        false, // grayscale
-        false, // pixels_in_byte_share_row (unused for depths > 8)
-        1, // bytes per cell. Only valid for depths < 8
-        false, // reverse_pixels_in_byte. Only valid for depths < 8
-        true, // reverse_pixels_in_word
-        MIPI_COMMAND_SET_COLUMN_ADDRESS, // Set column command
-        MIPI_COMMAND_SET_PAGE_ADDRESS, // Set row command
-        MIPI_COMMAND_WRITE_MEMORY_START, // Write memory command
+        320,
+        240,
+        0,
+        0,
+        0,
+        16,
+        false,
+        false,
+        1,
+        false,
+        true,
+        MIPI_COMMAND_SET_COLUMN_ADDRESS,
+        MIPI_COMMAND_SET_PAGE_ADDRESS,
+        MIPI_COMMAND_WRITE_MEMORY_START,
         display_init_sequence,
         sizeof(display_init_sequence),
-        &pin_GPIO38, // Backlight pin
+        &pin_GPIO38,
         NO_BRIGHTNESS_COMMAND,
-        1.0f, // brightness
-        false, // single_byte_bounds
-        false, // data_as_commands
-        true, // auto_refresh
-        60, // native_frames_per_second
-        true, // backlight_on_high
-        false, // SH1107_addressing
-        50000); // backlight pwm frequency
+        1.0f,
+        false,
+        false,
+        true,
+        60,
+        true,
+        false,
+        50000);
 }
 
 void board_init(void) {
-    // Power latch and peripheral power. Default to high (on).
     espressif_board_reset_pin_number(PWR_ON_PIN);
     espressif_board_reset_pin_number(PWR_EN_PIN);
-
-    // Display
     display_init();
 }
 
 bool espressif_board_reset_pin_number(gpio_num_t pin_number) {
-    // Keep the power pins asserted across resets so the board stays on.
     if (pin_number == PWR_EN_PIN || pin_number == PWR_ON_PIN) {
         config_pin_as_output_with_level(pin_number, true);
         return true;
