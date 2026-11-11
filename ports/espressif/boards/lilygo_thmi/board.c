@@ -1,22 +1,24 @@
 // This file is part of the CircuitPython project: https://circuitpython.org
 //
-// SPDX-FileCopyrightText: Copyright (c) 2020 Scott Shawcroft for Adafruit Industries
+// SPDX-FileCopyrightText: Copyright (c) 2026
 //
 // SPDX-License-Identifier: MIT
 
 #include "supervisor/board.h"
 #include "mpconfigboard.h"
 #include "driver/gpio.h"
-#include "py/mphal.h"
 #include "shared-bindings/microcontroller/Pin.h"
 #include "shared-module/displayio/__init__.h"
 #include "shared-module/displayio/mipi_constants.h"
 
 #define DELAY 0x80
 
-// ST7789 init sequence, based on the one shared by lilygo_ttgo_t8_s2_st7789
-// and adafruit_feather_esp32s3_tft in this repo, with MADCTL set for
-// 320x240 landscape.
+// GPIO10 (PWR_EN) must be high to run from the battery.
+// GPIO14 (PWR_ON) is the power latch and must be high to stay on.
+#define PWR_EN_PIN (10)
+#define PWR_ON_PIN (14)
+
+// display init sequence according to LilyGO example app
 uint8_t display_init_sequence[] = {
     // sw reset
     0x01, 0 | DELAY, 150,
@@ -24,11 +26,10 @@ uint8_t display_init_sequence[] = {
     0x11, 0 | DELAY, 255,
     // normal display mode on
     0x13, 0,
-    // madctl display and color format settings (landscape)
-    0x36, 1, 0xA0,
+    // display and color format settings
+    0x36, 1, 0x68,
     0xB6, 2, 0x0A, 0x82,
-    // 16 bits per pixel, delay 10ms
-    0x3A, 1 | DELAY, 0x55, 10,
+    0x3A, 1 | DELAY,  0x55, 10,
     // ST7789V frame rate setting
     0xB2, 5, 0x0C, 0x0C, 0x00, 0x33, 0x33,
     // voltages: VGH / VGL
@@ -44,7 +45,6 @@ uint8_t display_init_sequence[] = {
     // ST7789V gamma setting
     0xE0, 14, 0xD0, 0x00, 0x02, 0x07, 0x0A, 0x28, 0x32, 0x44, 0x42, 0x06, 0x0E, 0x12, 0x14, 0x17,
     0xE1, 14, 0xD0, 0x00, 0x02, 0x07, 0x0A, 0x28, 0x31, 0x54, 0x47, 0x0E, 0x1C, 0x17, 0x1B, 0x1E,
-    // display inversion on
     0x21, 0,
     // display on
     0x29, 0 | DELAY, 255,
@@ -69,9 +69,9 @@ static void display_init(void) {
         &pin_GPIO7, // Command or data
         &pin_GPIO6, // Chip select
         &pin_GPIO8, // Write
-        NULL, // Read. Not connected on this board.
-        NULL, // Reset. The panel has no reset line, use SWRESET.
-        10000000); // Frequency. Conservative; lilygo_tdisplay_s3 uses 15 MHz.
+        NULL, // Read is not connected
+        NULL, // Reset is not connected
+        15000000); // Frequency. ST7789 datasheet says min clock cycle is 66ns which is ~15 mhz.
 
     busdisplay_busdisplay_obj_t *display = &allocate_display()->display;
     display->base.type = &busdisplay_busdisplay_type;
@@ -106,19 +106,17 @@ static void display_init(void) {
 }
 
 void board_init(void) {
-    // GPIO14 (PWR_ON) and GPIO10 (PWR_EN) both hold the display powered on.
-    espressif_board_reset_pin_number(14);
-    espressif_board_reset_pin_number(10);
-    // Give the panel supply time to settle before talking to it.
-    mp_hal_delay_ms(50);
+    // Power latch and peripheral power. Default to high (on).
+    espressif_board_reset_pin_number(PWR_ON_PIN);
+    espressif_board_reset_pin_number(PWR_EN_PIN);
 
     // Display
     display_init();
 }
 
 bool espressif_board_reset_pin_number(gpio_num_t pin_number) {
-    // Keep the display power pins enabled.
-    if (pin_number == 14 || pin_number == 10) {
+    // Keep the power pins asserted across resets so the board stays on.
+    if (pin_number == PWR_EN_PIN || pin_number == PWR_ON_PIN) {
         config_pin_as_output_with_level(pin_number, true);
         return true;
     }
@@ -126,3 +124,4 @@ bool espressif_board_reset_pin_number(gpio_num_t pin_number) {
 }
 
 // Use the MP_WEAK supervisor/shared/board.c versions of routines not defined here.
+
