@@ -253,16 +253,7 @@ static void _run_background_tasks(void) {
 }
 
 static bool _refresh_area(busdisplay_busdisplay_obj_t *self, const displayio_area_t *area) {
-    uint16_t buffer_size = CIRCUITPY_DISPLAY_AREA_BUFFER_SIZE / sizeof(uint32_t);
-
-    #if CIRCUITPY_PARALLELDISPLAYBUS
-    if (mp_obj_is_type(self->bus.bus, &paralleldisplaybus_parallelbus_type)) {
-        const uint16_t max_buffer_size = 512 / sizeof(uint32_t);
-        if (buffer_size > max_buffer_size) {
-            buffer_size = max_buffer_size;
-        }
-    }
-    #endif
+    uint16_t buffer_size = CIRCUITPY_DISPLAY_AREA_BUFFER_SIZE / sizeof(uint32_t); // In uint32_ts
 
     displayio_area_t clipped;
     // Clip the area to the display by overlapping the areas. If there is no overlap then we're done.
