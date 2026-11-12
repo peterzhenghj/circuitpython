@@ -23,6 +23,8 @@ static uint8_t display_init_sequence[] = {
     0x11, 0 | DELAY, 120,
     0x3A, 1, 0x55,
     0x36, 1, 0x60,
+    0x2A, 4, 0x00, 0x00, 0x01, 0x3F,
+    0x2B, 4, 0x00, 0x00, 0x00, 0xEF,
     0x20, 0 | DELAY, 10,
     0x13, 0 | DELAY, 10,
     0x29, 0 | DELAY, 100,
@@ -51,7 +53,7 @@ static void display_init(void) {
         &pin_GPIO8,
         NULL,
         NULL,
-        10000000);
+        15000000);
 
     busdisplay_busdisplay_obj_t *display = &allocate_display()->display;
     display->base.type = &busdisplay_busdisplay_type;
@@ -68,7 +70,7 @@ static void display_init(void) {
         false,
         1,
         false,
-        false,
+        true,
         MIPI_COMMAND_SET_COLUMN_ADDRESS,
         MIPI_COMMAND_SET_PAGE_ADDRESS,
         MIPI_COMMAND_WRITE_MEMORY_START,
