@@ -51,7 +51,7 @@ static void display_init(void) {
         &pin_GPIO8,
         NULL,
         NULL,
-        15000000);
+        10000000);
 
     busdisplay_busdisplay_obj_t *display = &allocate_display()->display;
     display->base.type = &busdisplay_busdisplay_type;
@@ -68,7 +68,7 @@ static void display_init(void) {
         false,
         1,
         false,
-        true,
+        false,
         MIPI_COMMAND_SET_COLUMN_ADDRESS,
         MIPI_COMMAND_SET_PAGE_ADDRESS,
         MIPI_COMMAND_WRITE_MEMORY_START,
