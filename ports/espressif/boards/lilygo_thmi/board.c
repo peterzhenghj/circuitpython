@@ -7,6 +7,8 @@
 #include "supervisor/board.h"
 #include "mpconfigboard.h"
 #include "driver/gpio.h"
+#include "shared-bindings/microcontroller/Pin.h"
+#include "common-hal/microcontroller/Pin.h"
 
 #define PWR_EN_PIN (10)
 #define PWR_ON_PIN (14)
