@@ -10,6 +10,7 @@
 
 #define MICROPY_HW_BOARD_NAME       "LILYGO T-HMI"
 #define MICROPY_HW_MCU_NAME         "ESP32S3"
+
 #define CIRCUITPY_BOARD_SPI (1)
 #define CIRCUITPY_BOARD_SPI_PIN {{.clock = &pin_GPIO1, .mosi = &pin_GPIO3, .miso = &pin_GPIO4}, }
 
